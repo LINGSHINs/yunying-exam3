@@ -221,18 +221,104 @@ input,select{font-family:inherit}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring .rv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:300}
 
-@media (min-width:700px){ .modes{grid-template-columns:repeat(3,1fr)} .grid-ans{grid-template-columns:repeat(10,1fr)} }
+/* ===== 响应式适配：手机 / iPad / 桌面 全覆盖 ===== */
 @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
 
-@media (min-width:1024px){
-  .wrap{max-width:1100px}
-  .modes{grid-template-columns:repeat(4,1fr)}
-  #qText{font-size:19px;line-height:1.9}
-  #qOpts button{font-size:15px;padding:14px 16px}
-  .stat b{font-size:22px}
-  h2{font-size:20px}
+/* ---- 手机竖屏（<=480px）：收紧间距，防溢出 ---- */
+@media (max-width:480px){
+  .app{padding:0 13px}
+  .greet h2{font-size:21px}
+  #qOpts{grid-template-columns:1fr 1fr;gap:8px 10px}
+  .opt{padding:12px 11px}
+  .opt .ot{font-size:14px}
+  .qtext{font-size:16px}
+  .grid-ans{grid-template-columns:repeat(6,1fr);gap:6px}
+  .acell{height:34px;max-height:34px;font-size:11px;border-radius:8px}
+  .mode{padding:15px 13px 12px}
+  .card{padding:15px 14px}
 }
-@media (min-width:1280px){ .modes{grid-template-columns:repeat(5,1fr)} }
+
+/* ---- 手机横屏 / 大手机（481-767px） ---- */
+@media (min-width:481px) and (max-width:767px){
+  .modes{grid-template-columns:repeat(3,1fr)}
+  .grid-ans{grid-template-columns:repeat(8,1fr)}
+}
+
+/* ---- iPad 竖屏 /小平板（768-1023px） ---- */
+@media (min-width:768px) and (max-width:1023px){
+  .app{max-width:720px}
+  .modes{grid-template-columns:repeat(4,1fr)}
+  .greet h2{font-size:26px}
+  .qtext{font-size:18px;line-height:1.8}
+  .opt{padding:14px 16px}
+  .opt .ot{font-size:15.5px}
+  .grid-ans{grid-template-columns:repeat(10,1fr)}
+  .statgrid{grid-template-columns:repeat(4,1fr)}
+  .stat b{font-size:22px}
+  .qcard{padding:24px 22px}
+  /* iPad 上取消 fixed 底栏改随页流，避免大片空白 */
+  .nav{position:sticky;bottom:0}
+  body{padding-bottom:12px}
+}
+
+/* ---- iPad 横屏 / 笔记本（1024-1279px） ---- */
+@media (min-width:1024px) and (max-width:1279px){
+  .app{max-width:960px}
+  .topbar-in{max-width:960px}
+  .nav-in{max-width:960px}
+  .modes{grid-template-columns:repeat(4,1fr)}
+  .greet h2{font-size:28px}
+  .qtext{font-size:19px;line-height:1.9}
+  .opt{padding:15px 18px}
+  .opt .ot{font-size:16px}
+  #qOpts{gap:12px 16px}
+  .qcard{padding:28px 26px}
+  .statgrid{gap:12px}
+  .stat b{font-size:23px}
+  .grid-ans{grid-template-columns:repeat(12,1fr)}
+  .acell{height:40px;max-height:40px}
+  .nav{position:sticky;bottom:0}
+  body{padding-bottom:12px}
+}
+
+/* ---- 桌面大屏（>=1280px） ---- */
+@media (min-width:1280px){
+  .app{max-width:1180px}
+  .topbar-in{max-width:1180px}
+  .nav-in{max-width:1180px}
+  .modes{grid-template-columns:repeat(6,1fr)}
+  .modes .mode b{font-size:17px}
+  .greet h2{font-size:30px}
+  .greet p{font-size:14px}
+  .qtext{font-size:20px;line-height:1.9}
+  .opt{padding:16px 20px}
+  .opt .ot{font-size:16.5px}
+  #qOpts{gap:14px 18px}
+  .qcard{padding:32px 30px}
+  .statgrid{gap:14px}
+  .stat b{font-size:24px}
+  .stat span{font-size:12px}
+  .grid-ans{grid-template-columns:repeat(14,1fr)}
+  .acell{height:42px;max-height:42px}
+  .chip{padding:10px 18px;font-size:15px}
+  .exp{font-size:14.5px}
+  .nav{position:sticky;bottom:0}
+  body{padding-bottom:12px}
+  /* 桌面悬停态（手机无效） */
+  .mode:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,0,0,.12)}
+  .opt:hover:not(.sel):not(.right):not(.wrong):not(.dim){border-color:var(--ac2);background:var(--card2)}
+  .chip:hover:not(.on){border-color:var(--ac);color:var(--tx)}
+  .acell:hover{transform:scale(1.08)}
+  .btn:hover{filter:brightness(1.08)}
+  .icobtn:hover{background:var(--card2);color:var(--tx)}
+  .thcard:hover{border-color:var(--ac2)}
+  .mode,.opt,.chip{transition:.18s ease}
+}
+
+/* ---- 桌面隐藏底部导航标签文字外冗余，保持紧凑 ---- */
+@media (min-width:1024px){
+  .nav-in{height:56px}
+}
 </style>
 <script>
 var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});
@@ -13485,9 +13571,9 @@ function finishQuiz(){
       d.textContent = passed ? '必考部分通过（错 '+mustWrong+' 题）' : '必考部分错 '+mustWrong+' 题，直接不及格';
       rv.appendChild(d); rv.dataset.examnote=1;
     }
-    try{ var eh=JSON.parse(localStorage.getItem('examHist运营刷题_第三场.html'||'[]')||'[]');
+    try{ var eh=JSON.parse(localStorage.getItem('examHist运营刷题_第三场'||'[]')||'[]');
       eh.unshift({d:new Date().toLocaleString('zh-CN'),s:score.toFixed(0),mw:mustWrong,p:passed});
-      localStorage.setItem('examHist运营刷题_第三场.html',JSON.stringify(eh.slice(0,50)));
+      localStorage.setItem('examHist运营刷题_第三场',JSON.stringify(eh.slice(0,50)));
     }catch(e){}
   }
   var sg=document.getElementById('rStats');
