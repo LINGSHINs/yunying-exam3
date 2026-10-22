@@ -130,6 +130,7 @@ input,select{font-family:inherit}
 .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;box-shadow:var(--shadow)}
 .qtype{display:inline-block;font-size:11px;color:var(--ac2);border:1px solid var(--ac);border-radius:6px;padding:1px 8px;margin-bottom:12px;letter-spacing:.1em}
 .qtext{font-size:17px;font-weight:500;margin-bottom:18px;white-space:pre-wrap;word-break:break-word}
+.qtext .hl{color:var(--ac);font-weight:700}
 #qOpts{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
 .opt{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1.5px solid var(--line);
   border-radius:var(--radius);padding:13px 14px;margin-bottom:0;transition:.15s;text-align:left;width:100%}
@@ -13275,6 +13276,17 @@ function buildQuiz(list, opt){
 }
 function curQ(){ return Quiz? Quiz.qs[Quiz.i] : null; }
 
+function escH(s){return (''+s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function hlKey(text){
+  var t=escH(text);
+  // 金额: 1234.56元 / 1,000万元 / 50元
+  t=t.replace(/([0-9][0-9,]*(?:\.[0-9]+)?\s*(?:元|万元|亿元|％|%))/g,'<span class="hl">$1</span>');
+  // 数字+单位(时限/次数/比例): X个工作日/天/小时/分钟/次/年/月/日/笔/户/倍/折/成
+  t=t.replace(/([0-9][0-9]*(?:\.[0-9]+)?\s*(?:个工作日|工作日|个自然日|自然日|天|小时|分钟|个工作日内|日|个月|月|个年|年|次|笔|户|倍|折|成|人|张|份|项|个))/g,'<span class="hl">$1</span>');
+  // 关键时限词
+  t=t.replace(/(当日|次日|隔日|实时|当日入账|T\+[0-9])/g,'<span class="hl">$1</span>');
+  return t;
+}
 function renderQ(){
   if(!Quiz) return;
   var q = curQ();
@@ -13284,7 +13296,12 @@ function renderQ(){
   show('vQuiz');
   document.getElementById('topTitle').textContent = MODE_TITLE[Quiz.mode]||'运营资质刷题';
   document.getElementById('qType').textContent = TYPEMAP[q.type]||q.type;
-  document.getElementById('qText').textContent = q.q;
+  // 背题模式: 数字/金额/时限/百分比关键词高亮
+  if(Quiz.mode==='recite'){
+    document.getElementById('qText').innerHTML = hlKey(q.q);
+  }else{
+    document.getElementById('qText').textContent = q.q;
+  }
   var st = S.stats[q.__id]||{};
   var sub = '第 '+(Quiz.i+1)+' / '+Quiz.qs.length+' 题 · 答'+(st.r||0)+'错'+(st.w||0);
   var noEl = document.querySelector('.qtop .qno');
